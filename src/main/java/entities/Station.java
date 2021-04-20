@@ -12,9 +12,9 @@ public class Station {
     }
 
     public boolean enter(PassCard passCard, FareEnum fare) {
-        if(zone.equals(ZoneEnum.A) && (!fare.equals(FareEnum.AZONEUNIQUE) &&
-            !fare.equals(FareEnum.AZONEDAILY) && !fare.equals(FareEnum.AZONEWEEKLY) &&
-            !fare.equals(FareEnum.AZONEMONTHLY))) {
+        if(zone.equals(ZoneEnum.B) && (fare.equals(FareEnum.AZONEUNIQUE) ||
+            fare.equals(FareEnum.AZONEDAILY) || fare.equals(FareEnum.AZONEWEEKLY) ||
+            fare.equals(FareEnum.AZONEMONTHLY))) {
             return false;
         }
         return passCard.chargeFare(fare);

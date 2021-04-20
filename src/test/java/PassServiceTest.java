@@ -4,6 +4,8 @@ import enums.FareEnum;
 import enums.ZoneEnum;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PassServiceTest {
@@ -162,6 +164,93 @@ public class PassServiceTest {
         b1.enter(passCard, FareEnum.BZONEMONTHLY);
         b2.enter(passCard, FareEnum.BZONEMONTHLY);
         assertEquals(30, passCard.getBalance());
+    }
+    
+    // ENTER STATION AFTER VALIDATION DATE EXPIRE
+
+    @Test
+    public void EnterStationUsingUniqueTicketAfterDailyValidationExpire() {
+        PassCard passCard = new PassCard(100, FareEnum.AZONEDAILY,
+            LocalDate.of(2021, 4, 20));
+        Station a1 = new Station(ZoneEnum.A);
+        a1.enter(passCard, FareEnum.AZONEUNIQUE);
+        assertEquals(94, passCard.getBalance());
+    }
+
+    // ENTER MULTIPLE STATIONS AFTER FIRST VALIDATION DATE EXPIRE
+
+    @Test
+    public void EnterMultipleStationsUsingUniqueTicketAfterFirstValidationExpire() {
+        PassCard passCard = new PassCard(100, FareEnum.AZONEDAILY,
+                LocalDate.of(2021, 4, 20));
+        Station a1 = new Station(ZoneEnum.A);
+        a1.enter(passCard, FareEnum.AZONEUNIQUE);
+        a1.enter(passCard, FareEnum.AZONEUNIQUE);
+        assertEquals(88, passCard.getBalance());
+    }
+
+    @Test
+    public void EnterMultipleStationsUsingDailyTicketAfterFirstValidationExpire() {
+        PassCard passCard = new PassCard(100, FareEnum.AZONEDAILY,
+                LocalDate.of(2021, 4, 20));
+        Station a1 = new Station(ZoneEnum.A);
+        a1.enter(passCard, FareEnum.AZONEDAILY);
+        a1.enter(passCard, FareEnum.AZONEDAILY);
+        assertEquals(90, passCard.getBalance());
+    }
+
+    // ENTER MULTIPLE STATIONS USING CRESCENT TICKETS TYPES
+
+    @Test
+    public void EnterMultipleStationsUsingDailyAZoneAndWeeklyBZoneTickets() {
+        PassCard passCard = new PassCard(100);
+        Station a1 = new Station(ZoneEnum.A);
+        Station b1 = new Station(ZoneEnum.B);
+        a1.enter(passCard, FareEnum.AZONEDAILY);
+        b1.enter(passCard, FareEnum.BZONEWEEKLY);
+        assertEquals(45, passCard.getBalance());
+    }
+
+    // ENTER MULTIPLE STATIONS USING DECREMENT TICKETS TYPES
+
+    @Test
+    public void EnterMultipleStationsUsingWeeklyBZoneAndWeeklyAZoneTickets() {
+        PassCard passCard = new PassCard(100);
+        Station a1 = new Station(ZoneEnum.A);
+        Station b1 = new Station(ZoneEnum.B);
+        b1.enter(passCard, FareEnum.BZONEWEEKLY);
+        a1.enter(passCard, FareEnum.AZONEWEEKLY);
+        assertEquals(55, passCard.getBalance());
+    }
+
+    // ENTER B ZONE STATION USING A ZONE TICKET
+
+    @Test
+    public void EnterBZoneStationUsingUniqueAZoneTicket() {
+        PassCard passCard = new PassCard(100);
+        Station b1 = new Station(ZoneEnum.B);
+        assertFalse(b1.enter(passCard, FareEnum.AZONEUNIQUE));
+    }
+
+    @Test
+    public void EnterBZoneStationUsingDailyAZoneTicket() {
+        PassCard passCard = new PassCard(100);
+        Station b1 = new Station(ZoneEnum.B);
+        assertFalse(b1.enter(passCard, FareEnum.AZONEDAILY));
+    }
+
+    @Test
+    public void EnterBZoneStationUsingWeeklyAZoneTicket() {
+        PassCard passCard = new PassCard(100);
+        Station b1 = new Station(ZoneEnum.B);
+        assertFalse(b1.enter(passCard, FareEnum.AZONEWEEKLY));
+    }
+
+    @Test
+    public void EnterBZoneStationUsingMonthlyAZoneTicket() {
+        PassCard passCard = new PassCard(100);
+        Station b1 = new Station(ZoneEnum.B);
+        assertFalse(b1.enter(passCard, FareEnum.AZONEMONTHLY));
     }
 
 }
