@@ -1,9 +1,6 @@
-package entities;
-
-import enums.FareEnum;
+package com.passmanager.domain.model;
 
 import java.time.LocalDate;
-
 import static java.util.Objects.nonNull;
 
 public class PassCard {

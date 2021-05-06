@@ -1,21 +1,17 @@
-package tests;
-
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
-import entities.PassCard;
-import entities.Station;
-import enums.FareEnum;
-import enums.ZoneEnum;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+package com.passmanager.domain.model;
 
 import java.time.LocalDate;
-
+import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import cucumber.api.junit.Cucumber;
+import cucumber.api.CucumberOptions;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = { "classpath:features/buy-ticket.feature" },
-                 glue = {"tests"})
+@CucumberOptions(
+    features = { "classpath:features/buy-ticket.feature" },
+    glue = {"tests"}
+)
 public class PassServiceTest {
 
     @Test

@@ -1,7 +1,4 @@
-package entities;
-
-import enums.FareEnum;
-import enums.ZoneEnum;
+package com.passmanager.domain.model;
 
 public class Station {
 
